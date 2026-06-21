@@ -1,5 +1,6 @@
 /**
- * SonicBeats — app.js v3
+ * SonicBeats — app.js v4
+ *  0. CatalogRenderer  — builds DOM from catalog.js data
  *  1. CursorLight
  *  2. ThemeToggle      — dark ↔ white
  *  3. StickyNav
@@ -20,6 +21,116 @@
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+
+/* ── 0. CATALOG RENDERER ──────────────────────────────────────── */
+const CatalogRenderer = (() => ({
+  init() {
+    if (typeof CATALOG === 'undefined') return;
+    this.renderCollections();
+    this.renderCompare();
+    if (typeof GALLERY !== 'undefined') this.renderGallery();
+  },
+
+  renderSlides() {
+    const slideshow = $('#slideshow');
+    const dotsEl    = $('#hero-dots');
+    const totalEl   = $('.hero-counter__total');
+    if (!slideshow) return;
+
+    slideshow.innerHTML = CATALOG.map((p, i) => `
+      <div class="slide${i === 0 ? ' slide--active' : ''}"
+           data-idx="${i}" data-name="${p.name}" data-tagline="${p.tagline}"
+           aria-label="${p.name} speaker"
+           style="background-image:url('${p.img}')">
+        <div class="slide__overlay"></div>
+      </div>`).join('');
+
+    if (dotsEl) {
+      dotsEl.innerHTML = CATALOG.map((p, i) => `
+        <button class="hero-dot${i === 0 ? ' hero-dot--active' : ''}"
+                data-idx="${i}" role="tab"
+                aria-selected="${i === 0}" aria-label="${p.name}"></button>`).join('');
+    }
+
+    if (totalEl) totalEl.textContent = String(CATALOG.length).padStart(2, '0');
+  },
+
+  renderCollections() {
+    const grid = $('#collections-grid');
+    if (!grid) return;
+    const products = CATALOG.filter(p => p.inCollection);
+
+    grid.innerHTML = products.map((p, i) => `
+      <div class="collection-card reveal" data-delay="${i * 100}"
+           tabindex="0" role="article" aria-label="${p.name} collection">
+        <div class="collection-card__inner">
+          <div class="collection-card__front">
+            <div class="collection-card__visual"
+                 style="background-image:url('${p.img}')"></div>
+            <div class="collection-card__info">
+              <h3 class="collection-card__name">${p.name.toUpperCase()}</h3>
+              <p class="collection-card__tagline">${p.tagline}</p>
+              <span class="collection-card__price">${p.price}</span>
+              <a href="#custom" class="collection-card__link">ORDER NOW</a>
+            </div>
+          </div>
+          <div class="collection-card__hover-overlay">
+            <p>Starting from <strong>${p.price.replace('From ', '')}</strong></p>
+            <ul>${p.features.map(f => `<li>${f}</li>`).join('')}</ul>
+            <a href="#custom" class="btn btn--primary btn--sm">ORDER NOW</a>
+          </div>
+        </div>
+      </div>`).join('');
+  },
+
+  renderCompare() {
+    const tabsEl   = $('#compare-tabs');
+    const panelsEl = $('#compare-panels');
+    if (!tabsEl || !panelsEl) return;
+    const products = CATALOG.filter(p => p.inCompare);
+
+    tabsEl.innerHTML = products.map((p, i) => `
+      <button class="compare__tab${i === 0 ? ' compare__tab--active' : ''}"
+              data-model="${p.slug}" role="tab" aria-selected="${i === 0}">
+        ${p.name.toUpperCase()}
+      </button>`).join('');
+
+    panelsEl.innerHTML = products.map((p, i) => `
+      <div class="compare__panel${i === 0 ? ' compare__panel--active' : ''}"
+           data-model="${p.slug}" role="tabpanel">
+        <div class="compare__visual"
+             style="background-image:url('${p.img}')"></div>
+        <div class="compare__info">
+          <div class="compare__series">${p.series}</div>
+          <h3 class="compare__name">${p.name}</h3>
+          <p class="compare__desc">${p.desc}</p>
+          <div class="compare__specs">
+            ${p.specs.map(s => `
+              <div class="compare__spec">
+                <span class="compare__spec-label">${s.label}</span>
+                <span class="compare__spec-value">${s.value}</span>
+              </div>`).join('')}
+          </div>
+          <a href="#custom" class="btn btn--primary">CONFIGURE YOURS</a>
+        </div>
+      </div>`).join('');
+  },
+
+  renderGallery() {
+    const grid = $('#gallery-grid');
+    if (!grid) return;
+
+    grid.innerHTML = GALLERY.map(item => {
+      const sizeClass = item.size === 'tall' ? ' gallery__item--tall'
+                      : item.size === 'wide' ? ' gallery__item--wide' : '';
+      return `
+        <div class="gallery__item${sizeClass}"
+             style="background-image:url('${item.img}')">
+          <div class="gallery__item-overlay"><span>${item.label}</span></div>
+        </div>`;
+    }).join('');
+  },
+}))();
 
 /* ── 12. TOAST ────────────────────────────────────────────────── */
 const Toast = (() => {
@@ -142,7 +253,7 @@ const ScrollReveal = (() => {
         }
       });
     },
-    { rootMargin: '0px 0px -60px 0px', threshold: 0.08 }
+    { rootMargin: '0px 0px 0px 0px', threshold: 0.01 }
   );
   return {
     init() { $$('.reveal').forEach(el => observer.observe(el)); }
@@ -427,7 +538,6 @@ const Slideshow = (() => {
   const nextBtn   = $('#slide-next');
   const caption   = $('#hero-caption');
   const nameEl    = $('#slide-name');
-  const colEl     = $('#slide-collection');
   const tagEl     = $('#slide-tagline');
   const counterEl = $('#slide-current');
 
@@ -437,13 +547,9 @@ const Slideshow = (() => {
 
   function updateCaption(slide) {
     if (!caption) return;
-    caption.classList.remove('visible');
-    void caption.offsetWidth;
-    if (nameEl)    nameEl.textContent    = slide.dataset.name      || '';
-    if (colEl)     colEl.textContent     = slide.dataset.collection || '';
-    if (tagEl)     tagEl.textContent     = slide.dataset.tagline    || '';
+    if (nameEl)    nameEl.textContent = slide.dataset.name    || '';
+    if (tagEl)     tagEl.textContent  = slide.dataset.tagline || '';
     if (counterEl) counterEl.textContent = String(parseInt(slide.dataset.idx) + 1).padStart(2, '0');
-    requestAnimationFrame(() => caption.classList.add('visible'));
   }
 
   function goTo(next, dir = 'next') {
@@ -453,6 +559,9 @@ const Slideshow = (() => {
     current          = (next + slides.length) % slides.length;
     const exitClass  = dir === 'next' ? 'slide--exit-left'  : 'slide--exit-right';
     const enterClass = dir === 'next' ? 'slide--enter-right' : 'slide--enter-left';
+
+    // Hide caption immediately at transition start
+    caption?.classList.remove('visible');
 
     slides[prev].classList.remove('slide--active');
     slides[prev].classList.add(exitClass);
@@ -465,12 +574,17 @@ const Slideshow = (() => {
       slides[current].style.pointerEvents = '';
     });
 
+    // Update text at midpoint and show caption — arrives with the new slide
+    setTimeout(() => {
+      updateCaption(slides[current]);
+      updateDots(current);
+      caption?.classList.add('visible');
+    }, 360);
+
     setTimeout(() => {
       slides[prev].classList.remove(exitClass);
       slides[current].classList.remove(enterClass);
       slides[current].classList.add('slide--active');
-      updateDots(current);
-      updateCaption(slides[current]);
       busy = false;
     }, 720);
   }
@@ -580,6 +694,7 @@ const NavHighlight = (() => {
 
 /* ── BOOT ─────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+  CatalogRenderer.init(); // must run first — populates DOM for other modules
   CursorLight.init();
   ThemeToggle.init();
   StickyNav.init();
