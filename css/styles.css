@@ -1065,66 +1065,51 @@ h1, h2, h3, h4, h5, h6,
 .custom-step p { font-size: 0.82rem; color: var(--text-secondary); }
 .custom-step__arrow { display: none; }
 
-/* ── 13. GALLERY ─────────────────────────────────────────────── */
+/* ── 13. GALLERY (home preview) ──────────────────────────────── */
 .gallery { background: var(--bg-base); }
 .gallery__header { margin-bottom: 2.5rem; }
+.gallery__cta { margin-top: 2rem; text-align: center; }
+
+/* 2-column masonry — natural image heights, no cropping */
 .gallery__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  gap: 4px;
+  columns: 2;
+  column-gap: 4px;
 }
 .gallery__item {
+  break-inside: avoid;
+  margin-bottom: 4px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  aspect-ratio: 1;
-  background-color: var(--bg-card);
-  background-size: cover;
-  background-position: center;
+  display: block;
 }
-.gallery__item--tall { grid-row: span 2; aspect-ratio: auto; }
-.gallery__item--wide { grid-column: span 2; aspect-ratio: 2.5/1; }
-
-.gallery__item::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    45deg,
-    transparent, transparent 30px,
-    rgba(255,255,255,0.015) 30px, rgba(255,255,255,0.015) 31px
-  );
+.gallery__item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
 }
-[data-theme="white"] .gallery__item::after {
-  background: repeating-linear-gradient(
-    45deg,
-    transparent, transparent 30px,
-    rgba(0,0,0,0.025) 30px, rgba(0,0,0,0.025) 31px
-  );
-}
+.gallery__item:hover img { transform: scale(1.03); }
 
 .gallery__item-overlay {
   position: absolute; inset: 0;
-  background: rgba(0,0,0,0.0);
+  background: rgba(0,0,0,0);
   display: flex; align-items: flex-end;
-  padding: 1.25rem;
-  transition: background 0.4s;
+  padding: 1rem;
+  transition: background 0.35s;
 }
-[data-theme="white"] .gallery__item-overlay { background: rgba(255,255,255,0.0); }
-.gallery__item:hover .gallery__item-overlay { background: rgba(0,0,0,0.55); }
-[data-theme="white"] .gallery__item:hover .gallery__item-overlay { background: rgba(0,0,0,0.4); }
+.gallery__item:hover .gallery__item-overlay { background: rgba(0,0,0,0.52); }
 
 .gallery__item-overlay span {
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.5rem;
+  font-size: 0.48rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #fff;
   opacity: 0;
   transform: translateY(6px);
-  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.28s, transform 0.28s;
 }
 .gallery__item:hover .gallery__item-overlay span { opacity: 1; transform: translateY(0); }
 

@@ -120,15 +120,12 @@ const CatalogRenderer = (() => ({
     const grid = $('#gallery-grid');
     if (!grid) return;
 
-    grid.innerHTML = GALLERY.map(item => {
-      const sizeClass = item.size === 'tall' ? ' gallery__item--tall'
-                      : item.size === 'wide' ? ' gallery__item--wide' : '';
-      return `
-        <div class="gallery__item${sizeClass}"
-             style="background-image:url('${item.img}')">
-          <div class="gallery__item-overlay"><span>${item.label}</span></div>
-        </div>`;
-    }).join('');
+    // Show only the first 5 on the home page
+    grid.innerHTML = GALLERY.slice(0, 5).map(item => `
+      <div class="gallery__item">
+        <img src="${item.img}" alt="${item.label}" loading="lazy">
+        <div class="gallery__item-overlay"><span>${item.label}</span></div>
+      </div>`).join('');
   },
 }))();
 

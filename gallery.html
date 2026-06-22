@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SonicGallery — SonicBeats</title>
+  <meta name="description" content="The SonicBeats gallery — every speaker, every angle, every detail." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/gallery.css" />
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+  <header id="site-header" class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a href="index.html" class="nav__logo" aria-label="SonicBeats home">
+        <svg class="nav__logo-svg" viewBox="0 0 260 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M8,22 Q14,8 20,22 Q14,36 8,22" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.5"/>
+          <path d="M3,22 Q12,4 21,22 Q12,40 3,22" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.3"/>
+          <text x="26" y="34" font-family="'Orbitron',sans-serif" font-size="26" font-weight="900" fill="currentColor" letter-spacing="1">SONICBEATS</text>
+          <path d="M243,14 L256,22 L243,30" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          <path d="M238,16 Q249,22 238,28" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/>
+        </svg>
+        <span class="nav__logo-tagline">BREAKING THE SOUND BARRIER</span>
+      </a>
+
+      <ul class="nav__links" role="list">
+        <li><a href="index.html" class="nav__link">Home</a></li>
+        <li><a href="index.html#manifesto" class="nav__link">Manifesto</a></li>
+        <li><a href="index.html#collections" class="nav__link">Collection</a></li>
+        <li><a href="index.html#compare" class="nav__link">Compare</a></li>
+        <li><a href="index.html#custom" class="nav__link">Custom</a></li>
+        <li><a href="gallery.html" class="nav__link nav__link--active">Gallery</a></li>
+        <li><a href="index.html#story" class="nav__link">Story</a></li>
+        <li><a href="index.html#contact" class="nav__link">Contact</a></li>
+      </ul>
+
+      <div class="nav__actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-toggle__dot" aria-hidden="true"></span>
+          <span class="theme-toggle__label" id="theme-label">DARK</span>
+        </button>
+        <button class="nav__hamburger" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="index.html" class="mobile-menu__link">Home</a></li>
+        <li><a href="index.html#manifesto" class="mobile-menu__link">Manifesto</a></li>
+        <li><a href="index.html#collections" class="mobile-menu__link">Collection</a></li>
+        <li><a href="index.html#compare" class="mobile-menu__link">Compare</a></li>
+        <li><a href="index.html#custom" class="mobile-menu__link">Custom</a></li>
+        <li><a href="gallery.html" class="mobile-menu__link">Gallery</a></li>
+        <li><a href="index.html#story" class="mobile-menu__link">Story</a></li>
+        <li><a href="index.html#contact" class="mobile-menu__link">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ── PAGE HEADER ───────────────────────────────────────────── -->
+  <section class="sg-hero">
+    <div class="container">
+      <h1 class="sg-hero__title">SonicGallery</h1>
+      <p class="sg-hero__sub">Every speaker. Every angle. Every detail.</p>
+    </div>
+  </section>
+
+  <!-- ── MASONRY GRID ──────────────────────────────────────────── -->
+  <main class="sg-main">
+    <div class="container">
+      <div class="sg-grid" id="sg-grid">
+        <!-- Injected by gallery.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ── LIGHTBOX ──────────────────────────────────────────────── -->
+  <div class="sg-lightbox" id="sg-lightbox" aria-modal="true" role="dialog" aria-label="Image viewer">
+    <button class="sg-lightbox__close" id="sg-lb-close" aria-label="Close">✕</button>
+    <button class="sg-lightbox__arrow sg-lightbox__arrow--prev" id="sg-lb-prev" aria-label="Previous image">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="sg-lightbox__arrow sg-lightbox__arrow--next" id="sg-lb-next" aria-label="Next image">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <div class="sg-lightbox__inner">
+      <img class="sg-lightbox__img" id="sg-lb-img" src="" alt="" />
+      <div class="sg-lightbox__caption">
+        <span id="sg-lb-label"></span>
+        <span class="sg-lightbox__counter" id="sg-lb-counter"></span>
+      </div>
+    </div>
+  </div>
+  <div class="sg-lightbox__backdrop" id="sg-lb-backdrop"></div>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__top">
+        <div class="site-footer__brand">
+          <span class="site-footer__logo">SONICBEATS</span>
+          <p class="site-footer__tagline">Breaking the Sound Barrier.</p>
+          <p class="site-footer__sub">Handcrafted luxury speakers. Built in Europe.</p>
+        </div>
+        <div class="site-footer__links">
+          <div class="site-footer__nav">
+            <h4>Collection</h4>
+            <ul>
+              <li><a href="index.html#collections">Enigma</a></li>
+              <li><a href="index.html#collections">Infinity</a></li>
+              <li><a href="index.html#collections">TinyMen</a></li>
+              <li><a href="index.html#collections">BlackBox</a></li>
+            </ul>
+          </div>
+          <div class="site-footer__nav">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="index.html#story">Our Story</a></li>
+              <li><a href="manifesto.html">Manifesto</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="site-footer__nav">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Returns</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p class="site-footer__copy">&copy; 2025 SonicBeats. All rights reserved.</p>
+        <div class="site-footer__social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-hidden="true"></div>
+
+  <script src="js/catalog.js"></script>
+  <script src="js/gallery.js"></script>
+</body>
+</html>
