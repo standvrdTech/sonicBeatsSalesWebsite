@@ -1,0 +1,181 @@
+/* ── SonicGallery page styles ──────────────────────────────────── */
+
+/* Page hero */
+.sg-hero {
+  padding: calc(72px + 4rem) 0 3rem;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+}
+.sg-hero__title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.sg-hero__sub {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}
+
+/* Main content area */
+.sg-main {
+  padding: 3rem 0 5rem;
+  background: var(--bg-base);
+  min-height: 60vh;
+}
+
+/* 3-column masonry */
+.sg-grid {
+  columns: 3;
+  column-gap: 6px;
+}
+@media (max-width: 900px) { .sg-grid { columns: 2; } }
+@media (max-width: 540px) { .sg-grid { columns: 1; } }
+
+/* Individual tile */
+.sg-item {
+  break-inside: avoid;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+  background: var(--bg-card);
+}
+.sg-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.sg-item:hover img { transform: scale(1.04); }
+
+/* Hover overlay */
+.sg-item__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem;
+  transition: background 0.35s;
+  pointer-events: none;
+}
+.sg-item:hover .sg-item__overlay { background: rgba(0,0,0,0.58); }
+
+.sg-item__label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.28s, transform 0.28s;
+}
+.sg-item:hover .sg-item__label { opacity: 1; transform: translateY(0); }
+
+/* ── Lightbox ─────────────────────────────────────────────────── */
+.sg-lightbox__backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.94);
+  z-index: 2000;
+}
+.sg-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2001;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.sg-lightbox.open,
+.sg-lightbox.open ~ .sg-lightbox__backdrop,
+.sg-lightbox__backdrop.open {
+  display: flex;
+}
+
+.sg-lightbox__inner {
+  position: relative;
+  max-width: min(90vw, 1100px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.sg-lightbox__img {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.sg-lightbox__caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+.sg-lightbox__caption span {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+.sg-lightbox__counter { color: rgba(255,255,255,0.4) !important; }
+
+.sg-lightbox__close {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  font-size: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  z-index: 2002;
+}
+.sg-lightbox__close:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+
+.sg-lightbox__arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  z-index: 2002;
+}
+.sg-lightbox__arrow:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.4); }
+.sg-lightbox__arrow--prev { left: 1.5rem; }
+.sg-lightbox__arrow--next { right: 1.5rem; }
