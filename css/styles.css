@@ -909,6 +909,112 @@ h1, h2, h3, h4, h5, h6,
 .mini-speaker__body--wide    { width: 100px; height: 60px; }
 .mini-grille { width: 100%; height: 100%; }
 
+/* ── 11. FEATURED CARDS + COLOUR SWATCHES ────────────────────── */
+.collections__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 900px) { .collections__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .collections__grid { grid-template-columns: 1fr; } }
+
+.feat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.feat-card:hover {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  border-color: var(--text-muted);
+}
+
+.feat-card__img-wrap {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+.feat-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+.feat-card:hover .feat-card__img { transform: scale(1.04); }
+
+.feat-card__info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+.feat-card__meta { display: flex; flex-direction: column; gap: 0.3rem; }
+.feat-card__series {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.42rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.feat-card__name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+.feat-card__tagline {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Colour swatches */
+.feat-card__swatches {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.color-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s;
+  outline: none;
+  padding: 0;
+}
+.color-swatch:hover { transform: scale(1.15); }
+.color-swatch--active {
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px var(--text-primary);
+}
+
+.feat-card__color-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.feat-card__color-name {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+.feat-card__price {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
 /* ── 11. COMPARE ─────────────────────────────────────────────── */
 .compare { background: var(--bg-primary); }
 .compare__header { margin-bottom: 2rem; }
@@ -1324,7 +1430,6 @@ body, .site-header, .nav__logo, .btn, .collection-card,
   .manifesto__inner { flex-direction: row; gap: 5rem; align-items: flex-start; }
   .manifesto__text { flex: 1; }
   .manifesto__pillars { flex: 1; gap: 1.25rem; }
-  .collections__grid { grid-template-columns: repeat(2, 1fr); }
   .gallery__grid { grid-template-columns: repeat(3, 1fr); }
   .nav__logo-tagline { display: block; }
 }
@@ -1338,8 +1443,6 @@ body, .site-header, .nav__logo, .btn, .collection-card,
   .section { padding: 7rem 0; }
 
   .hero-counter { top: 80px; }
-
-  .collections__grid { grid-template-columns: repeat(4, 1fr); }
 
   .compare__panel--active { grid-template-columns: 1fr 1.4fr; }
   .compare__visual { min-height: 380px; }

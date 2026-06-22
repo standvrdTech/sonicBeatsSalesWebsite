@@ -27,7 +27,6 @@ const CatalogRenderer = (() => ({
   init() {
     if (typeof CATALOG === 'undefined') return;
     this.renderCollections();
-    this.renderCompare();
     if (typeof GALLERY !== 'undefined') this.renderGallery();
   },
 
@@ -58,29 +57,60 @@ const CatalogRenderer = (() => ({
   renderCollections() {
     const grid = $('#collections-grid');
     if (!grid) return;
-    const products = CATALOG.filter(p => p.inCollection);
+    const featured = ['blackbox', 'enigma', 'tinymen'];
+    const products = CATALOG.filter(p => featured.includes(p.slug));
 
-    grid.innerHTML = products.map((p, i) => `
-      <div class="collection-card reveal" data-delay="${i * 100}"
-           tabindex="0" role="article" aria-label="${p.name} collection">
-        <div class="collection-card__inner">
-          <div class="collection-card__front">
-            <div class="collection-card__visual"
-                 style="background-image:url('${p.img}')"></div>
-            <div class="collection-card__info">
-              <h3 class="collection-card__name">${p.name.toUpperCase()}</h3>
-              <p class="collection-card__tagline">${p.tagline}</p>
-              <span class="collection-card__price">${p.price}</span>
-              <a href="#custom" class="collection-card__link">ORDER NOW</a>
+    grid.innerHTML = products.map((p, i) => {
+      const colors = p.colors || [];
+      const first = colors[0];
+      const swatches = colors.map((c, ci) => `
+        <button class="color-swatch${ci === 0 ? ' color-swatch--active' : ''}"
+                data-img="${c.img}"
+                data-fallback="${p.img}"
+                data-color-name="${c.name}"
+                style="background:${c.hex}"
+                aria-label="${c.name}"
+                title="${c.name}"></button>`).join('');
+
+      return `
+        <article class="feat-card reveal" data-delay="${i * 120}" data-slug="${p.slug}">
+          <div class="feat-card__img-wrap">
+            <img class="feat-card__img"
+                 src="${first ? first.img : p.img}"
+                 data-fallback="${p.img}"
+                 alt="${p.name}"
+                 loading="lazy"
+                 onerror="this.src=this.dataset.fallback" />
+          </div>
+          <div class="feat-card__info">
+            <div class="feat-card__meta">
+              <p class="feat-card__series">${p.series}</p>
+              <h3 class="feat-card__name">${p.name}</h3>
+              <p class="feat-card__tagline">${p.tagline}</p>
             </div>
+            ${colors.length ? `
+            <div class="feat-card__swatches" role="group" aria-label="Colour options">${swatches}</div>
+            <div class="feat-card__color-row">
+              <span class="feat-card__color-name">${first ? first.name : ''}</span>
+              <span class="feat-card__price">${p.price}</span>
+            </div>` : `<span class="feat-card__price">${p.price}</span>`}
+            <a href="shop.html#${p.slug}" class="btn btn--primary btn--sm">ORDER NOW</a>
           </div>
-          <div class="collection-card__hover-overlay">
-            <p>Starting from <strong>${p.price.replace('From ', '')}</strong></p>
-            <ul>${p.features.map(f => `<li>${f}</li>`).join('')}</ul>
-            <a href="#custom" class="btn btn--primary btn--sm">ORDER NOW</a>
-          </div>
-        </div>
-      </div>`).join('');
+        </article>`;
+    }).join('');
+
+    /* Swatch click — swap image + update label */
+    grid.addEventListener('click', e => {
+      const swatch = e.target.closest('.color-swatch');
+      if (!swatch) return;
+      const card = swatch.closest('.feat-card');
+      const img  = card.querySelector('.feat-card__img');
+      const label = card.querySelector('.feat-card__color-name');
+      card.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('color-swatch--active'));
+      swatch.classList.add('color-swatch--active');
+      img.src = swatch.dataset.img;
+      if (label) label.textContent = swatch.dataset.colorName;
+    });
   },
 
   renderCompare() {
@@ -542,10 +572,16 @@ const Slideshow = (() => {
   let timer   = null;
   let busy    = false;
 
+  const ctaEl = caption?.querySelector('.hero-caption__cta');
+
   function updateCaption(slide) {
     if (!caption) return;
     if (nameEl)    nameEl.textContent = slide.dataset.name    || '';
     if (tagEl)     tagEl.textContent  = slide.dataset.tagline || '';
+    if (ctaEl) {
+      const slug = (slide.dataset.name || '').toLowerCase().replace(/\s+/g, '');
+      ctaEl.href = `shop.html#${slug}`;
+    }
     if (counterEl) counterEl.textContent = String(parseInt(slide.dataset.idx) + 1).padStart(2, '0');
   }
 
