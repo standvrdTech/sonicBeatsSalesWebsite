@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — SonicBeats</title>
+  <meta name="description" content="Browse the full SonicBeats speaker collection. Handcrafted luxury speakers available in multiple colours." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+  <header id="site-header" class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a href="index.html" class="nav__logo" aria-label="SonicBeats home">
+        <svg class="nav__logo-svg" viewBox="0 0 260 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M8,22 Q14,8 20,22 Q14,36 8,22" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.5"/>
+          <path d="M3,22 Q12,4 21,22 Q12,40 3,22" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.3"/>
+          <text x="26" y="34" font-family="'Orbitron',sans-serif" font-size="26" font-weight="900" fill="currentColor" letter-spacing="1">SONICBEATS</text>
+          <path d="M243,14 L256,22 L243,30" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+          <path d="M238,16 Q249,22 238,28" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/>
+        </svg>
+        <span class="nav__logo-tagline">BREAKING THE SOUND BARRIER</span>
+      </a>
+
+      <ul class="nav__links" role="list">
+        <li><a href="index.html" class="nav__link">Home</a></li>
+        <li><a href="index.html#manifesto" class="nav__link">Manifesto</a></li>
+        <li><a href="shop.html" class="nav__link nav__link--active">Shop</a></li>
+        <li><a href="index.html#custom" class="nav__link">Custom</a></li>
+        <li><a href="gallery.html" class="nav__link">Gallery</a></li>
+        <li><a href="index.html#story" class="nav__link">Story</a></li>
+        <li><a href="index.html#contact" class="nav__link">Contact</a></li>
+      </ul>
+
+      <div class="nav__actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-toggle__dot" aria-hidden="true"></span>
+          <span class="theme-toggle__label" id="theme-label">DARK</span>
+        </button>
+        <button class="nav__hamburger" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="index.html" class="mobile-menu__link">Home</a></li>
+        <li><a href="index.html#manifesto" class="mobile-menu__link">Manifesto</a></li>
+        <li><a href="shop.html" class="mobile-menu__link">Shop</a></li>
+        <li><a href="index.html#custom" class="mobile-menu__link">Custom</a></li>
+        <li><a href="gallery.html" class="mobile-menu__link">Gallery</a></li>
+        <li><a href="index.html#story" class="mobile-menu__link">Story</a></li>
+        <li><a href="index.html#contact" class="mobile-menu__link">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ── SHOP HERO ─────────────────────────────────────────────── -->
+  <section class="shop-hero">
+    <div class="container">
+      <div class="shop-hero__inner">
+        <span class="shop-hero__eyebrow">THE COLLECTION</span>
+        <h1 class="shop-hero__title">Every Speaker.<br />Every Detail.</h1>
+        <p class="shop-hero__sub">Handbuilt to order. Select your model, choose your colour, configure your sound.</p>
+      </div>
+
+      <!-- Model quick-nav pills -->
+      <div class="shop-hero__models" id="model-pills">
+        <!-- Injected by shop.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRODUCT LISTING ───────────────────────────────────────── -->
+  <main class="shop-main">
+    <div class="container">
+      <div class="shop-grid" id="shop-grid">
+        <!-- Injected by shop.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ── CUSTOM CTA ─────────────────────────────────────────────── -->
+  <section class="shop-custom-cta">
+    <div class="container">
+      <div class="shop-custom-cta__inner">
+        <span class="eyebrow">BESPOKE</span>
+        <h2>Can't find exactly what you want?</h2>
+        <p>Every detail is yours to define — wood species, grille pattern, driver configuration, finish, engraving. Work directly with our craftsmen to commission something extraordinary.</p>
+        <a href="index.html#contact" class="btn btn--primary">COMMISSION A CUSTOM SPEAKER</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__top">
+        <div class="site-footer__brand">
+          <span class="site-footer__logo">SONICBEATS</span>
+          <p class="site-footer__tagline">Breaking the Sound Barrier.</p>
+          <p class="site-footer__sub">Handcrafted luxury speakers. Built in Europe.</p>
+        </div>
+        <div class="site-footer__links">
+          <div class="site-footer__nav">
+            <h4>Shop</h4>
+            <ul>
+              <li><a href="shop.html#enigma">Enigma</a></li>
+              <li><a href="shop.html#infinity">Infinity</a></li>
+              <li><a href="shop.html#tinymen">TinyMen</a></li>
+              <li><a href="shop.html#blackbox">BlackBox</a></li>
+            </ul>
+          </div>
+          <div class="site-footer__nav">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="index.html#story">Our Story</a></li>
+              <li><a href="manifesto.html">Manifesto</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="site-footer__nav">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Returns</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p class="site-footer__copy">&copy; 2025 SonicBeats. All rights reserved.</p>
+        <div class="site-footer__social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-hidden="true"></div>
+
+  <script src="js/catalog.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>
